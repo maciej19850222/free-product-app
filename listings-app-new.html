@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Listings</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-color: #5ca904;
+            --secondary-color: #054a63;
+            --accent-color: #fdb913;
+            --text-color: #333;
+            --background-light: #f8f8f8;
+            --background-white: #ffffff;
+            --border-color: #e0e0e0;
+            --box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--background-light);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--background-white);
+            color: var(--text-color);
+            padding: 15px 0;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            left: 0;
+            bottom: -4px;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .btn:hover {
+            background-color: #4b8c03;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .hero {
+            background-color: var(--secondary-color);
+            background-image: linear-gradient(45deg, var(--secondary-color), #076b90);
+            color: white;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: 0;
+        }
+        
+        .hero .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            max-width: 700px;
+            font-weight: 300;
+        }
+        
+        .search-container {
+            background-color: var(--background-white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            transform: translateY(30px);
+        }
+        
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .search-form input, .search-form select {
+            flex: 1;
+            padding: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            min-width: 200px;
+            font-size: 15px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .search-form input:focus, .search-form select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(92, 169, 4, 0.1);
+        }
+        
+        .search-form button {
+            padding: 14px 28px;
+            font-size: 16px;
+        }
+        
+        .main-content {
+            padding: 80px 0 50px;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background: var(--primary-color);
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%);
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+        
+        .category-filter {
+            background-color: var(--background-white);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+        
+        .category-filter:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .category-filter.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .listings {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        
+        .listing-card {
+            background-color: var(--background-white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        
+        .listing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .listing-image {
+            height: 200px;
+            background-color: #eee;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .listing-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .listing-details {
+            padding: 25px;
+        }
+        
+        .listing-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .listing-location {
+            color: #777;
+            margin-bottom: 12px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .listing-location:before {
+            content: '📍';
+            margin-right: 6px;
+        }
+        
+        .listing-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .listing-description {
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .listing-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .listing-date {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .listing-contact {
+            font-size: 14px;
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .listing-contact:hover {
+            color: var(--secondary-color);
+        }
+        
+        #create-section {
+            background-color: var(--background-light);
+        }
+        
+        #create-listing-form {
+            background-color: var(--background-white);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 15px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(92, 169, 4, 0.1);
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .form-submit {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .form-submit .btn {
+            padding: 14px 40px;
+            font-size: 16px;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 25px;
+            font-size: 18px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background: var(--primary-color);
+            left: 0;
+            bottom: 0;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            margin-top: 50px;
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .search-form input, .search-form select, .search-form button {
+                width: 100%;
+            }
+            
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 20px;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 12px;
+            }
+            
+            .search-container {
+                transform: translateY(0);
+                margin-top: 30px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .listing-card {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            
+            .listings {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Modal styling */
+        #modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--background-white);
+            width: 90%;
+            max-width: 800px;
+            border-radius: 12px;
+            z-index: 1001;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+            transition: color 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-modal:hover {
+            color: var(--primary-color);
+            background-color: #f5f5f5;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .listing-detail-image {
+            width: 100%;
+            height: 400px;
+            background-color: #eee;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .listing-detail-info {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .listing-detail-price {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .listing-detail-location {
+            color: #777;
+            display: flex;
+            align-items: center;
+        }
+        
+        .listing-detail-location:before {
+            content: '📍';
+            margin-right: 6px;
+        }
+
+        .listing-detail-description {
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: #555;
+        }
+
+        .listing-detail-contact {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+        
+        .contact-info {
+            margin-bottom: 15px;
+        }
+
+        .contact-info strong {
+            display: inline-block;
+            width: 80px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                FreeListing
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" id="home-link">Home</a></li>
+                    <li><a href="#" id="browse-link">Browse Listings</a></li>
+                    <li><a href="#" id="create-link">Create Listing</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="hero-section">
+        <div class="container">
+            <h1>Find What You Need, List What You Don't</h1>
+            <p>FreeListing connects people with free goods and services in their community. Join our sustainable sharing economy today!</p>
+            <div class="search-container">
+                <form class="search-form" id="search-form">
+                    <input type="text" placeholder="What are you looking for?" id="search-keyword">
+                    <select id="search-category">
+                        <option value="">All Categories</option>
+                        <option value="furniture">Furniture</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="books">Books</option>
+                        <option value="toys">Toys</option>
+                        <option value="services">Services</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <input type="text" placeholder="Location" id="search-location">
+                    <button type="submit" class="btn">Search</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="main-content" id="listings-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Available Listings</h2>
+                <p class="section-subtitle">Browse through our collection of free items and services shared by community members.</p>
+            </div>
+            
+            <div class="category-filters">
+                <div class="category-filter active" data-category="all">All</div>
+                <div class="category-filter" data-category="furniture">Furniture</div>
+                <div class="category-filter" data-category="electronics">Electronics</div>
+                <div class="category-filter" data-category="clothing">Clothing</div>
+                <div class="category-filter" data-category="books">Books</div>
+                <div class="category-filter" data-category="toys">Toys</div>
+                <div class="category-filter" data-category="services">Services</div>
+                <div class="category-filter" data-category="other">Other</div>
+            </div>
+            
+            <div class="listings" id="listings-container">
+                <!-- Listings will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <section class="main-content" id="create-section" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Create a New Listing</h2>
+                <p class="section-subtitle">Share your unused items with others and help build a more sustainable community.</p>
+            </div>
+            
+            <form id="create-listing-form">
+                <div class="form-group">
+                    <label for="listing-title">Title</label>
+                    <input type="text" id="listing-title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="listing-category">Category</label>
+                    <select id="listing-category" required>
+                        <option value="">Select a category</option>
+                        <option value="furniture">Furniture</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="books">Books</option>
+                        <option value="toys">Toys</option>
+                        <option value="services">Services</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="listing-description">Description</label>
+                    <textarea id="listing-description" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="listing-location">Location</label>
+                    <input type="text" id="listing-location" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="listing-contact">Contact Information</label>
+                    <input type="text" id="listing-contact" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="listing-image">Image URL (optional)</label>
+                    <input type="text" id="listing-image" placeholder="https://example.com/image.jpg">
+                </div>
+                
+                <div class="form-submit">
+                    <button type="submit" class="btn">Create Listing</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <div id="modal-overlay"></div>
+    <div class="modal" id="listing-detail-modal">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Listing Title</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="listing-detail-image" id="modal-image"></div>
+            <div class="listing-detail-info">
+                <div class="listing-detail-price" id="modal-price">Free</div>
+                <div class="listing-detail-location" id="modal-location">Location</div>
+            </div>
+            <div class="listing-detail-description" id="modal-description">
+                Listing description goes here.
+            </div>
+            <div class="listing-detail-contact">
+                <h4>Contact Information</h4>
+                <div class="contact-info">
+                    <strong>Contact:</strong> <span id="modal-contact">Contact info</span>
+                </div>
+                <div class="contact-info">
+                    <strong>Listed:</strong> <span id="modal-date">Date</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FreeListing</h3>
+                    <p>Connect with your community through free exchanges. Working together for a sustainable future by extending the life of products and reducing waste.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Browse Listings</a></li>
+                        <li><a href="#">Create Listing</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Community Guidelines</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Furniture</a></li>
+                        <li><a href="#">Electronics</a></li>
+                        <li><a href="#">Clothing</a></li>
+                        <li><a href="#">Books</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Toys</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li>Email: info@freelisting.com</li>
+                        <li>Phone: (123) 456-7890</li>
+                        <li>Address: 123 Community St, Green City</li>
+                        <li><a href="#">Report an Issue</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 FreeListing. All rights reserved. Creating sustainable communities through sharing.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data for listings
+        const listings = [
+            {
+                id: 1,
+                title: "Comfortable Sofa",
+                category: "furniture",
+                description: "Comfortable three-seater sofa in good condition. Moving out and need to find it a new home. Dimensions: 180cm width, 90cm depth, 85cm height. Light beige color with minimal wear.",
+                location: "Downtown, City",
+                image: "/api/placeholder/400/320",
+                contact: "john@example.com",
+                date: "March 12, 2025"
+            },
+            {
+                id: 2,
+                title: "Working Laptop",
+                category: "electronics",
+                description: "5-year-old laptop that still works well for basic tasks. Some minor scratches on the case. Intel i5 processor, 8GB RAM, 256GB SSD. Battery holds about 2 hours of charge. Comes with charger.",
+                location: "North District",
+                image: "/api/placeholder/400/320",
+                contact: "sara@example.com",
+                date: "March 15, 2025"
+            },
+            {
+                id: 3,
+                title: "Children's Books",
+                category: "books",
+                description: "Collection of 15 children's books in excellent condition. Suitable for ages 5-8. Titles include popular story books and educational materials. All hardcover and well maintained.",
+                location: "Westside",
+                image: "/api/placeholder/400/320",
+                contact: "mike@example.com",
+                date: "March 10, 2025"
+            },
+            {
+                id: 4,
+                title: "Winter Clothing Bundle",
+                category: "clothing",
+                description: "Bundle of winter clothes including jackets, sweaters, and scarves. All clean and in good condition. Women's size M/L. Includes 2 jackets, 3 sweaters, 2 scarves, and a winter hat.",
+                location: "East End",
+                image: "/api/placeholder/400/320",
+                contact: "emily@example.com",
+                date: "March 18, 2025"
+            },
+            {
+                id: 5,
+                title: "Free Math Tutoring",
+                category: "services",
+                description: "Offering free math tutoring for high school students. One hour per week, flexible scheduling. Can help with algebra, geometry, trigonometry, and basic calculus. I'm a college math major with 2 years of tutoring experience.",
+                location: "Online / South District",
+                image: "/api/placeholder/400/320",
+                contact: "david@example.com",
+                date: "March 14, 2025"
+            },
+            {
+                id: 6,
+                title: "LEGO Set",
+                category: "toys",
+                description: "Complete LEGO city set. Used but all pieces are there. Suitable for kids 8+. Includes buildings, vehicles, and mini-figures. Original instructions included. Box has some wear but contents are perfect.",
+                location: "Central Park Area",
+                image: "/api/placeholder/400/320",
+                contact: "lisa@example.com",
+                date: "March 16, 2025"
+            }
+        ];
+
+        // Function to display listings
+        function displayListings(listingsToShow) {
+            const listingsContainer = document.getElementById('listings-container');
+            listingsContainer.innerHTML = '';
+            
+            if (listingsToShow.length === 0) {
+                listingsContainer.innerHTML = '<p style="text-align: center; width: 100%;">No listings found matching your criteria.</p>';
+                return;
+            }
+            
+            listingsToShow.forEach(listing => {
+                const listingCard = document.createElement('div');
+                listingCard.className = 'listing-card';
+                listingCard.setAttribute('data-id', listing.id);
+                
+                listingCard.innerHTML = `
+                    <div class="listing-image" style="background-image: url('${listing.image}')">
+                        <div class="listing-badge">Free</div>
+                    </div>
+                    <div class="listing-details">
+                        <h3 class="listing-title">${listing.title}</h3>
+                        <p class="listing-location">${listing.location}</p>
+                        <p class="listing-price">Free</p>
+                        <p class="listing-description">${listing.description.substring(0, 100)}...</p>
+                        <div class="listing-footer">
+                            <span class="listing-date">${listing.date}</span>
+                            <span class="listing-contact">View Details</span>
+                        </div>
+                    </div>
+                `;
+                
+                listingsContainer.appendChild(listingCard);
+                
+                // Add click event to view details
+                listingCard.addEventListener('click', function() {
+                    openListingModal(listing);
+                });
+            });
+        }
+
+        // Function to open listing modal
+        function openListingModal(listing) {
+            // Set modal content
+            document.getElementById('modal-title').textContent = listing.title;
+            document.getElementById('modal-image').style.backgroundImage = `url('${listing.image}')`;
+            document.getElementById('modal-location').textContent = listing.location;
+            document.getElementById('modal-description').textContent = listing.description;
+            document.getElementById('modal-contact').textContent = listing.contact;
+            document.getElementById('modal-date').textContent = listing.date;
+            
+            // Show modal and overlay
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modal = document.getElementById('listing-detail-modal');
+            
+            modalOverlay.style.display = 'block';
+            modal.style.display = 'block';
+            
+            // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Function to close modal
+        function closeModal() {
+            document.getElementById('modal-overlay').style.display = 'none';
+            document.getElementById('listing-detail-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Function to filter listings by category
+        function filterListingsByCategory(category) {
+            if (category === 'all') {
+                return listings;
+            } else {
+                return listings.filter(listing => listing.category === category);
+            }
+        }
+
+        // Function to search listings
+        function searchListings(keyword, category, location) {
+            return listings.filter(listing => {
+                const matchesKeyword = keyword === '' || 
+                    listing.title.toLowerCase().includes(keyword.toLowerCase()) || 
+                    listing.description.toLowerCase().includes(keyword.toLowerCase());
+                
+                const matchesCategory = category === '' || listing.category === category;
+                
+                const matchesLocation = location === '' || 
+                    listing.location.toLowerCase().includes(location.toLowerCase());
+                
+                return matchesKeyword && matchesCategory && matchesLocation;
+            });
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Display all listings initially
+            displayListings(listings);
+            
+            // Category filter functionality
+            const categoryFilters = document.querySelectorAll('.category-filter');
+            categoryFilters.forEach(filter => {
+                filter.addEventListener('click', () => {
+                    // Update active class
+                    categoryFilters.forEach(f => f.classList.remove('active'));
+                    filter.classList.add('active');
+                    
+                    // Filter listings
+                    const category = filter.getAttribute('data-category');
+                    const filteredListings = filterListingsByCategory(category);
+                    displayListings(filteredListings);
+                });
+            });
+            
+            // Search functionality
+            document.getElementById('search-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const keyword = document.getElementById('search-keyword').value;
+                const category = document.getElementById('search-category').value;
+                const location = document.getElementById('search-location').value;
+                
+                const searchResults = searchListings(keyword, category, location);
+                displayListings(searchResults);
+                
+                // Scroll to listings section
+                document.getElementById('listings-section').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Navigation
+            document.getElementById('home-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('hero-section').style.display = 'block';
+                document.getElementById('listings-section').style.display = 'block';
+                document.getElementById('create-section').style.display = 'none';
+            });
+            
+            document.getElementById('browse-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('hero-section').style.display = 'none';
+                document.getElementById('listings-section').style.display = 'block';
+                document.getElementById('create-section').style.display = 'none';
+                document.getElementById('listings-section').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            document.getElementById('create-link').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('hero-section').style.display = 'none';
+                document.getElementById('listings-section').style.display = 'none';
+                document.getElementById('create-section').style.display = 'block';
+                document.getElementById('create-section').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Set up modal close functionality
+            const closeButton = document.querySelector('.close-modal');
+            if (closeButton) {
+                closeButton.addEventListener('click', closeModal);
+            }
+            
+            // Close modal when clicking on overlay
+            const modalOverlay = document.getElementById('modal-overlay');
+            if (modalOverlay) {
+                modalOverlay.addEventListener('click', function(e) {
+                    if (e.target === modalOverlay) {
+                        closeModal();
+                    }
+                });
+            }
+            
+            // Close modal on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+            
+            // Create listing functionality
+            document.getElementById('create-listing-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Get form values
+                const title = document.getElementById('listing-title').value;
+                const category = document.getElementById('listing-category').value;
+                const description = document.getElementById('listing-description').value;
+                const location = document.getElementById('listing-location').value;
+                const contact = document.getElementById('listing-contact').value;
+                const image = document.getElementById('listing-image').value || '/api/placeholder/400/320';
+                
+                // Create new listing
+                const newListing = {
+                    id: listings.length + 1,
+                    title,
+                    category,
+                    description,
+                    location,
+                    contact,
+                    image,
+                    date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+                };
+                
+                // Add to listings array
+                listings.unshift(newListing);
+                
+                // Reset form
+                document.getElementById('create-listing-form').reset();
+                
+                // Show success message
+                alert('Your listing has been created successfully!');
+                
+                // Navigate to browse listings
+                document.getElementById('browse-link').click();
+                
+                // Display updated listings
+                displayListings(listings);
+            });
+        });
